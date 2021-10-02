@@ -16,7 +16,7 @@ export default async function createUser(props: { email: string; displayName?: s
   }
 
   const connection = getConnection();
-  const userRepository = connection.getRepository(User);
+  const userRepo = connection.getRepository(User);
 
-  return userRepository.save(user);
+  return userRepo.save(user);
 }

@@ -28,6 +28,7 @@
     "cli": "ts-node -r dotenv/config ./src/cli.ts",
     "typeorm": "ts-node -r dotenv/config ./node_modules/.bin/typeorm",
     "start": "ts-node src/index.ts",
+    "test": "jest",
     "dev": "nodemon -r dotenv/config src/index.ts",
     "format": "prettier --write --plugin-search-dir=. '**/*.{js,ts,tsx,json}'"
   },

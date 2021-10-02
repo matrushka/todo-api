@@ -11,10 +11,7 @@ export default async function authenticateAccessToken(accessToken: string) {
   if (claims.exp === undefined) throw new Error('Invalid Token: Missing "exp" claim.');
 
   const connection = getConnection();
-  const repository = connection.getRepository(User);
+  const userRepo = connection.getRepository(User);
 
-  const user = await repository.findOne(claims.user_id);
-  if (!user) throw new Error("Invalid token: Invalid user_id.");
-
-  return user;
+  return await userRepo.findOneOrFail(claims.user_id);
 }
