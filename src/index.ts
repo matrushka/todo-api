@@ -1,14 +1,30 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-// import { User } from "./entity/User";
+
 import fastify from "fastify";
 import UserController from "./controllers/user";
+
+import authenticateAccessToken from "./services/authenticateAccessToken";
+import { User } from "./entity/User";
+
+// using declaration merging, add your plugin props to the appropriate fastify interfaces
+declare module 'fastify' {
+  interface FastifyRequest {
+    user?: User;
+  }
+}
 
 const { PORT = 3000 } = process.env;
 
 // TODO: add a proper logging infra
 const boot = async () => {
   const server = fastify({ logger: true });
+
+  server.addHook("preHandler", async (req, reply, done) => {
+    const accessToken = (req.query as any).accessToken;
+    req.user = accessToken ? await authenticateAccessToken(accessToken) : undefined;
+    done();
+  });
 
   server.register(UserController, { prefix: "/users" });
 
