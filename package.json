@@ -16,7 +16,6 @@
     "@types/jsonwebtoken": "^8.5.5",
     "class-validator": "^0.13.1",
     "fastify": "^3.22.0",
-    "fastify-swagger": "^4.12.4",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.10",
@@ -38,6 +37,9 @@
     "tabWidth": 2
   },
   "jest": {
+    "setupFiles": [
+      "dotenv/config"
+    ],
     "preset": "ts-jest",
     "testEnvironment": "node",
     "maxWorkers": "1"

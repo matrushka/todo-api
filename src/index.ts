@@ -6,9 +6,10 @@ import UserController from "./controllers/user";
 
 import authenticateAccessToken from "./services/authenticateAccessToken";
 import { User } from "./entity/User";
+import TaskController from "./controllers/task";
 
 // using declaration merging, add your plugin props to the appropriate fastify interfaces
-declare module 'fastify' {
+declare module "fastify" {
   interface FastifyRequest {
     user?: User;
   }
@@ -27,6 +28,7 @@ const boot = async () => {
   });
 
   server.register(UserController, { prefix: "/users" });
+  server.register(TaskController, { prefix: "/tasks" });
 
   await createConnection();
   await server.listen(PORT);
