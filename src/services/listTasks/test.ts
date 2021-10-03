@@ -1,6 +1,6 @@
 import listTasks from ".";
 import connection from "../../../test/connection";
-import { TaskStatus } from "../../entity/Task";
+import { TaskStatus } from "../../types";
 import createTask from "../createTask";
 
 connection.auto();

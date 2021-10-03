@@ -12,9 +12,9 @@ import UserController from "./controllers/user";
 
 import authenticateAccessToken from "./services/authenticateAccessToken";
 import TaskController from "./controllers/task";
-import { APIRequest } from "./types";
+import { APIRequest, TaskStatus } from "./types";
 import createError = require("fastify-error");
-import { DEVELOPMENT_ENV } from "./constants";
+import { ALL_TASK_STATUSES, DEVELOPMENT_ENV } from "./constants";
 
 const AuthenticationError = createError("UNAUTHENTICATED_REQUEST", "Unauthenticated request", 401);
 // TODO: add a proper logging infra
@@ -36,10 +36,41 @@ const boot = async (port: number, env: string, connection?: Connection) => {
   });
 
   server.setErrorHandler((error, request, reply) => {
-    const statusCode = error.statusCode >= 400 ? error.statusCode : 500;
-    if (statusCode >= 500) request.log.error(error);
+    if (error.validation) {
+      reply.code(400).send({
+        message: error.message,
+      });
+    } else {
+      const statusCode = error.statusCode >= 400 ? error.statusCode : 500;
+      if (statusCode >= 500) request.log.error(error);
 
-    reply.code(statusCode).send();
+      reply.code(statusCode).send({ message: error.message });
+    }
+  });
+
+  server.addSchema({
+    $id: "User",
+    type: "object",
+    required: ["id", "email"],
+    properties: {
+      id: { type: "string" },
+      displayName: { type: ["string", "null"] },
+      email: { type: "string" },
+    },
+  });
+
+  server.addSchema({
+    $id: "Task",
+    type: "object",
+    required: ["id", "name", "status"],
+    properties: {
+      id: { type: "string" },
+      name: { type: ["string"] },
+      status: {
+        type: "string",
+        enum: ALL_TASK_STATUSES,
+      },
+    },
   });
 
   server.register(UserController, { prefix: "/users" });

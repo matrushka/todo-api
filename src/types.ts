@@ -18,3 +18,9 @@ export type APIRequest<T extends RouteGenericInterface = {}> = FastifyRequest<
     Querystring: T["Querystring"] & { accessToken?: string };
   }
 > & { authenticate: () => Promise<User>; getCurrentUser: () => Promise<User | undefined> };
+
+export enum TaskStatus {
+  TO_DO = "TO_DO",
+  IN_PROGRESS = "IN_PROGRESS",
+  COMPLETED = "COMPLETED",
+}

@@ -1,6 +1,5 @@
 import deleteTask from ".";
 import connection from "../../../test/connection";
-import { TaskStatus } from "../../entity/Task";
 import createTask from "../createTask";
 import listTasks from "../listTasks";
 

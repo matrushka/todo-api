@@ -3,8 +3,7 @@ import createUser from "../../services/createUser";
 import generateAccessToken from "../../services/generateAccessToken";
 import axios, { AxiosResponse } from "axios";
 import createTask from "../../services/createTask";
-import { TaskStatus } from "../../entity/Task";
-import listTasks from "../../services/listTasks";
+import { TaskStatus } from "../../types";
 
 server.auto();
 

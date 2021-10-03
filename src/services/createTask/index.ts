@@ -1,7 +1,7 @@
 import { validate } from "class-validator";
 import { getConnection } from "typeorm";
-import { Task, TaskStatus } from "../../entity/Task";
-import { EntityValidationError } from "../../types";
+import { Task } from "../../entity/Task";
+import { EntityValidationError, TaskStatus } from "../../types";
 
 export default async function createTask(props: { name: string; status?: TaskStatus }) {
   const task = new Task();

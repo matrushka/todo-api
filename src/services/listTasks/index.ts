@@ -1,5 +1,6 @@
 import { FindConditions, getConnection } from "typeorm";
-import { Task, TaskStatus } from "../../entity/Task";
+import { Task } from "../../entity/Task";
+import { TaskStatus } from "../../types";
 
 export type ListTasksQuery = {
   status?: TaskStatus;
