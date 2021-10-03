@@ -1,9 +1,10 @@
 import { FastifyPluginCallback } from "fastify";
+import { APIRequest } from "../../types";
 
 const UserController: FastifyPluginCallback = (app, opts, done) => {
-  app.get("/me", async (req, reply) => {
-    if (!req.user) return reply.status(400).send();
-    return req.user;
+  app.get("/me", async (req: APIRequest) => {
+    const user = await req.authenticate();
+    return { user };
   });
   done();
 };

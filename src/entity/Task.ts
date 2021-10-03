@@ -13,6 +13,11 @@ export enum TaskStatus {
   COMPLETED = "COMPLETED",
 }
 
+export type TaskProps = {
+  status?: TaskStatus;
+  name: string;
+};
+
 @Entity()
 export class Task {
   @PrimaryGeneratedColumn("uuid")

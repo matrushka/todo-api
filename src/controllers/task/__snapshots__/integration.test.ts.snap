@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`controllers.task GET / should return all tasks w/o a status filter 1`] = `
+Array [
+  "Task #0",
+  "Task #1",
+  "Task #2",
+  "Task #3",
+  "Task #4",
+]
+`;
+
+exports[`controllers.task GET / should return all tasks w/o a status filter 2`] = `
+Array [
+  "COMPLETED",
+  "TO_DO",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "IN_PROGRESS",
+]
+`;

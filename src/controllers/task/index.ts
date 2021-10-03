@@ -1,20 +1,36 @@
 import { FastifyPluginCallback } from "fastify";
-import listTasks from "../../services/listTasks";
+import { TaskProps, TaskStatus } from "../../entity/Task";
+import createTask from "../../services/createTask";
+import deleteTask from "../../services/deleteTask";
+import listTasks, { ListTasksQuery } from "../../services/listTasks";
+import updateTask from "../../services/updateTask";
+import { APIRequest } from "../../types";
 
 const TaskController: FastifyPluginCallback = (app, opts, done) => {
-  app.get("/", async (req, reply) => {
-    return listTasks();
+  app.get("/", async (req: APIRequest<{ Querystring: ListTasksQuery }>) => {
+    return { tasks: await listTasks(req.query) };
   });
 
-  // app.post("/", async (req, reply) => {
-  //   if (!req.user) return reply.status(400).send();
-  //   return req.user;
-  // });
+  app.post("/", async (req: APIRequest<{ Body: { task: TaskProps } }>) => {
+    await req.authenticate();
+    const task = await createTask(req.body.task);
+    return { task };
+  });
 
-  // app.post("/:id", async (req, reply) => {
-  //   if (!req.user) return reply.status(400).send();
-  //   return req.user;
-  // });
+  app.put(
+    "/:id",
+    async (req: APIRequest<{ Params: { id: string }; Body: { task: Partial<TaskProps> } }>) => {
+      await req.authenticate();
+      const task = await updateTask(req.params.id, req.body.task);
+      return { task };
+    }
+  );
+
+  app.delete("/:id", async (req: APIRequest<{ Params: { id: string } }>) => {
+    await req.authenticate();
+    await deleteTask(req.params.id);
+    return { ok: true };
+  });
 
   done();
 };
