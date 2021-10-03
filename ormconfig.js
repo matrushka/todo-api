@@ -22,7 +22,7 @@ const {
   searchParams: params,
 } = databaseUrl;
 
-if (protocol !== "postgresql:") throw new Error(`Unsupported DB protocol: ${protocol}`);
+if (protocol !== "postgres:") throw new Error(`Unsupported DB protocol: ${protocol}`);
 const [_, database] = pathname.split(PATH_SEPERATOR);
 
 const TYPEORM_CONFIG = {

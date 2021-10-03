@@ -6,6 +6,7 @@ import { getConnection } from "typeorm";
 
 let instance: FastifyInstance;
 let port: number;
+const ADDRESS = "127.0.0.1";
 
 const server = {
   auto() {
@@ -22,12 +23,12 @@ const server = {
 
   getUrl(pathString = "") {
     if (instance === undefined || port === undefined) throw new Error("Server not started yet.");
-    return `http://127.0.0.1:${port}${pathString}`;
+    return `http://${ADDRESS}:${port}${pathString}`;
   },
 
   async create() {
     port = await getPort();
-    instance = await boot(port, "test", getConnection());
+    instance = await boot(ADDRESS, port, "test", getConnection());
   },
 
   async close() {

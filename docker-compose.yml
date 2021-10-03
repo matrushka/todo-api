@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  database:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: todo-api
+    volumes:
+      - ./.storage/database:/var/lib/postgresql/data
+  server:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    environment:
+      - BIND_ADDRESS=0.0.0.0
+      - NODE_ENV=production
+      - MASTER_SECRET=76a2af6bf72a09e774b4f0fecd245d68f7c4d902b46f1e6a32cd186b4505f527a97e30be34649ad73805d6fd86bece4cf07600031cbc558935abb388869f2f87
+      - DATABASE_URL=postgres://postgres:todo-api@database

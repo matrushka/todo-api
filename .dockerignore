@@ -5,4 +5,6 @@ build/
 tmp/
 temp/
 .env
-.storage
+.storage/
+docker-compose.yml
+Dockerfile

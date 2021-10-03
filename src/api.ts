@@ -1,11 +1,5 @@
 import "reflect-metadata";
-import {
-  Connection,
-  ConnectionManager,
-  createConnection,
-  getConnection,
-  SimpleConsoleLogger,
-} from "typeorm";
+import { Connection, createConnection } from "typeorm";
 
 import fastify, { FastifyServerOptions } from "fastify";
 import UserController from "./controllers/user";
@@ -18,7 +12,7 @@ import { ALL_TASK_STATUSES, DEVELOPMENT_ENV } from "./constants";
 
 const AuthenticationError = createError("UNAUTHENTICATED_REQUEST", "Unauthenticated request", 401);
 // TODO: add a proper logging infra
-const boot = async (port: number, env: string, connection?: Connection) => {
+const boot = async (address: string, port: number, env: string, connection?: Connection) => {
   const logger: FastifyServerOptions["logger"] =
     env === "test" ? false : { prettyPrint: env === DEVELOPMENT_ENV };
   const server = fastify({ logger });
@@ -77,7 +71,7 @@ const boot = async (port: number, env: string, connection?: Connection) => {
   server.register(TaskController, { prefix: "/tasks" });
 
   if (!connection) await createConnection();
-  await server.listen(port);
+  await server.listen(port, address);
   return server;
 };
 
