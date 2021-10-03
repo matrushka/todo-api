@@ -6,7 +6,7 @@ import UserController from "./controllers/user";
 
 import authenticateAccessToken from "./services/authenticateAccessToken";
 import TaskController from "./controllers/task";
-import { APIRequest, TaskStatus } from "./types";
+import { APIRequest } from "./types";
 import createError = require("fastify-error");
 import { ALL_TASK_STATUSES, DEVELOPMENT_ENV } from "./constants";
 

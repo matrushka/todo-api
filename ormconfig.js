@@ -1,4 +1,4 @@
-const { TEST_DATABASE_URL, DATABASE_URL, NODE_ENV = "development" } = process.env;
+const { TEST_DATABASE_URL, DATABASE_URL, DATABASE_SSL, NODE_ENV = "development" } = process.env;
 
 let databaseUrlString;
 if (NODE_ENV === "test") {
@@ -24,6 +24,7 @@ const {
 
 if (protocol !== "postgres:") throw new Error(`Unsupported DB protocol: ${protocol}`);
 const [_, database] = pathname.split(PATH_SEPERATOR);
+const useSSL = Boolean(DATABASE_SSL);
 
 const TYPEORM_CONFIG = {
   type: "postgres",
@@ -46,5 +47,15 @@ const TYPEORM_CONFIG = {
     subscribersDir: "src/subscriber",
   },
 };
+
+if (useSSL) {
+  Object.assign(TYPEORM_CONFIG, {
+    extra: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
+  });
+}
 
 module.exports = TYPEORM_CONFIG;
