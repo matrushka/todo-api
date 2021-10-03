@@ -1,5 +1,6 @@
 {
   "name": "todo-api",
+  "license": "MIT",
   "version": "0.0.1",
   "description": "Awesome project developed with TypeORM.",
   "devDependencies": {
@@ -31,9 +32,10 @@
   "scripts": {
     "cli": "ts-node -r dotenv/config ./src/cli.ts",
     "typeorm": "ts-node -r dotenv/config ./node_modules/.bin/typeorm",
-    "start": "ts-node src/server.ts",
+    "start": "ts-node -r dotenv/config src/server.ts",
     "test": "jest",
     "dev": "nodemon -r dotenv/config src/server.ts",
+    "migrate": "typeorm migration:run",
     "format": "prettier --write --plugin-search-dir=. '**/*.{js,ts,tsx,json}'"
   },
   "prettier": {
